@@ -31,24 +31,24 @@
 		let picArr = [];
 
     let arr = [
-      'http://img04.sogoucdn.com/app/a/100520146/c18414d606bc5406e8e2995be2bdfd2e',
-      'http://img01.sogoucdn.com/app/a/100520146/6a25436a12230038438e31f8d2f14eb6',
-      'http://img02.sogoucdn.com/app/a/100520146/213073931ade67d8a36200e8cd47b961',
-      'http://img03.sogoucdn.com/app/a/100520146/0e2069f76f0716a3eb74dce854df38c1',
-      'http://img03.sogoucdn.com/app/a/100520146/0f24425285828a87aaa6fbbc26ce77b4',
-      'http://img04.sogoucdn.com/app/a/100520146/706b4b0b22d619017751cc496170bf3d',
-      'http://img02.sogoucdn.com/app/a/100520146/21c2c47ff15a0d30e8951a8001589a63',
-      'http://img02.sogoucdn.com/app/a/100520146/4dfaaff971e6432b1a43b0d931b09748',
-      'http://img03.sogoucdn.com/app/a/100520146/fcdba130b8bad38e8f042c7c50bea2c0',
-      'http://img03.sogoucdn.com/app/a/100520146/8a1264741c299b3a1d62f7906b753525',
-      'http://img02.sogoucdn.com/app/a/100520146/59690f352aad4fb3eaff06ca654b52d6',
-      'http://img04.sogoucdn.com/app/a/100520146/d7a8735f4924659870a79508e857c33d',
-      'http://img02.sogoucdn.com/app/a/100520146/3c8501519e71fe4f34dc64f8f10cc45a',
-      'http://img02.sogoucdn.com/app/a/100520146/c2c1e1ce4f2957798570111bfdaacda3',
-      'http://img02.sogoucdn.com/app/a/100520146/b07e885514cdc3278edf7b4cbe3e1d01',
-      'http://img04.sogoucdn.com/app/a/100520146/eb7ed0f6246541c787a134e197e7739e',
-      'http://img02.sogoucdn.com/app/a/100520146/f341d97cd30414439623a2e3f86a5983',
-      'http://img01.sogoucdn.com/app/a/100520146/69d39203fba9a7881848619b7b961694',
+      '20E64C7_427A_23e653f11e6f7115b32e8e7f5406dd5f_20260130100213459newMediaImage.jpeg',
+      '218B916_427A_421f25f967c48938c5ca6c8f3b0e63fc_20260130100219948newMediaImage.jpeg',
+      '414948E_427A_4e35bb0615ccd30166856d972b1795ce_20260130100405537newMediaImage.jpeg',
+      '46A6329_427A_5b8b735687f9a1e4ced596847a88a35c_20260130100408031newMediaImage.jpeg',
+      '474E7EE_427A_810d9f0d754e8999ef84e19ae0170e4a_20260130100523577newMediaImage.jpeg',
+      '1DA594A_427A_photoship1_20260130100552618newMediaImage.png',
+      '45F4690_427A_photoship2_20260130100607839newMediaImage.png',
+      '48BD62B_427A_photoship3_20260130100707443newMediaImage.png',
+      '26D99AF_427A_photoship4_20260130100712888newMediaImage.png',
+      '4D46759_427A_photoship5_20260130100733667newMediaImage.png',
+      '36EFF18_427A_photoship6_20260130100739292newMediaImage.png',
+      '4E48C14_427A_photoship7_20260130100759995newMediaImage.png',
+      '4539605_427A_photoship8_20260130100803151newMediaImage.png',
+      '178C622_427A_photoship9_20260130100823748newMediaImage.png',
+      '33ACE19_427A_photoship10_20260130100826626newMediaImage.png',
+      '1191019_427A_photoship11_20260130100848702newMediaImage.jpg',
+      '59101AB_427A_photoship12_20260130100851454newMediaImage.jpg',
+      '270E2DF_427A_photoship13_20260130100912011newMediaImage.jpg',
     //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzE3Mzk1Nl9mNGNlZjFkMy0wZGQ5LTRjNzAtOGU4Mi0zMjZiNjBkN2VkMWY=',
     //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzE5ODAyOV8yNGVhMjJhMC02OTVmLTRhYzYtYmE4Zi1jN2ZiZmFhMmFmMTg=',
     //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzIxOTk0NV8zNWFjMzQ4Mi0wNTI3LTQ1OTktYTAyMi0yYjhkNDBkMGEwMmE=',
@@ -68,14 +68,15 @@
 		// 生成随机图片
 		for (let i = 0; i < 199; i++) {
 			let yu = i % 18;
-			if (yu == 0) {
-				yu = 18;
-			}
+			// if (yu == 0) {
+			// 	yu = 17;
+			// }
 			picArr.push({
-				url: arr[yu]
+				url: "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/"+arr[yu]
 			});
 		}
-
+		console.log(picArr,'picArr');
+		
 		let table = [];
 		for (let i = 0; i < picArr.length; i++) {
 			table[i] = {};
