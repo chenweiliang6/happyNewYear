@@ -9,233 +9,250 @@
 	<meta name="referrer" content="no-referrer">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-</head>
+	</head>
 
-<body>
-	<div id="container"></div>
-	<audio autoplay loop controls id="music">
-		<source src="img/love.mp3">
-	</audio>
+	<body>
+		<div id="container"></div>
+		<audio autoplay loop controls id="music">
+			<source src="img/love.mp3">
+		</audio>
 
-	<script src="js/three.min.js"></script>
-	<!-- 补间动画 -->
-	<script src="js/tween.min.js"></script>
-	<!-- 轨迹球控制器（TrackballControls） -->
-	<script src="js/TrackballControls.js"></script>
+		<script src="js/three.min.js"></script>
+		<!-- 补间动画 -->
+		<script src="js/tween.min.js"></script>
+		<!-- 轨迹球控制器（TrackballControls） -->
+		<script src="js/TrackballControls.js"></script>
 
-	<script src="js/CSS3DRenderer.js"></script>
+		<script src="js/CSS3DRenderer.js"></script>
 
 
-	<script>
-		let musicDom = document.getElementById("music");
-		let picArr = [];
+		<script>
+			let musicDom = document.getElementById("music");
+			let picArr = [];
+			function startMusic() {
+				if (isMusicStarted) return;
+				isMusicStarted = true;
 
-    let arr = [
-      '20E64C7_427A_23e653f11e6f7115b32e8e7f5406dd5f_20260130100213459newMediaImage.jpeg',
-      '218B916_427A_421f25f967c48938c5ca6c8f3b0e63fc_20260130100219948newMediaImage.jpeg',
-      '414948E_427A_4e35bb0615ccd30166856d972b1795ce_20260130100405537newMediaImage.jpeg',
-      '46A6329_427A_5b8b735687f9a1e4ced596847a88a35c_20260130100408031newMediaImage.jpeg',
-      '474E7EE_427A_810d9f0d754e8999ef84e19ae0170e4a_20260130100523577newMediaImage.jpeg',
-      '1DA594A_427A_photoship1_20260130100552618newMediaImage.png',
-      '45F4690_427A_photoship2_20260130100607839newMediaImage.png',
-      '48BD62B_427A_photoship3_20260130100707443newMediaImage.png',
-      '26D99AF_427A_photoship4_20260130100712888newMediaImage.png',
-      '4D46759_427A_photoship5_20260130100733667newMediaImage.png',
-      '36EFF18_427A_photoship6_20260130100739292newMediaImage.png',
-      '4E48C14_427A_photoship7_20260130100759995newMediaImage.png',
-      '4539605_427A_photoship8_20260130100803151newMediaImage.png',
-      '178C622_427A_photoship9_20260130100823748newMediaImage.png',
-      '33ACE19_427A_photoship10_20260130100826626newMediaImage.png',
-      '1191019_427A_photoship11_20260130100848702newMediaImage.jpg',
-      '59101AB_427A_photoship12_20260130100851454newMediaImage.jpg',
-      '270E2DF_427A_photoship13_20260130100912011newMediaImage.jpg',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzE3Mzk1Nl9mNGNlZjFkMy0wZGQ5LTRjNzAtOGU4Mi0zMjZiNjBkN2VkMWY=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzE5ODAyOV8yNGVhMjJhMC02OTVmLTRhYzYtYmE4Zi1jN2ZiZmFhMmFmMTg=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzIxOTk0NV8zNWFjMzQ4Mi0wNTI3LTQ1OTktYTAyMi0yYjhkNDBkMGEwMmE=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzI0MDUzNV8zMzAxZmRmOC02MWM2LTRhZDMtYWZkZi03ZDU1YTM1ZDI5ZTI=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzI1ODE5MF82NDE2NTNlMy1jYWFmLTQ3NTktOTNjYS02NjlkNTBiNzU2MWE=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzI3NzU5NV81NDQzNjNiOS01Yjc4LTQ2NjAtYjk5Zi0wOWU5OTQ2M2UzMDQ=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzMwOTYwNF9mMGU3NzM5NC1lNDdiLTQwNGQtODYyNC03Mjg3YjdjNDFjMjU=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzMzMjIwNF8zNzc4ZmRlOC0zNDk4LTQxNzYtYWI2OC03ZWE5NDM2ZjkxMzE=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzM1NTc5OF8xZGE3ZjE0NS1kOGY1LTRhZjktOTJjNS04Y2Q3MDU0MzNiMDc=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzM3NzMzM19jZjYyZmQ5Mi1kZGFjLTQ4MTgtYWM5YS05OTQ3ZDI5NTk3Yzc=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzM5Nzg2M18zMjEyNjc4NS04M2Q0LTRmMDgtOGY2OC04ZGYwODc3NTk3MjY=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzQzMjgxOF9mOGFjNzBmZi03NGJkLTQ3NGEtOGNmYS1lNGI5NGMwMTc3NWY=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzQ1NjEwMV81YjMxNjFlOS1mOTA0LTQwZTgtYWQzMC02NjU1MGI0MDVhNzc=',
-    //   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzQ3MzczMV9lNjcyMWU3YS0wNTAxLTQ3YWItOWMwYS02NGU4MjIwODQxYzg='
-    ]
+				musicDom.play().then(() => {
+					console.log("音乐开始播放");
+				}).catch(error => {
+					console.error("播放失败:", error);
+				});
 
-		// 生成随机图片
-		for (let i = 0; i < 199; i++) {
-			let yu = i % 18;
-			// if (yu == 0) {
-			// 	yu = 17;
-			// }
-			picArr.push({
-				url: "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/"+arr[yu]
-			});
-		}
-		console.log(picArr,'picArr');
-		
-		let table = [];
-		for (let i = 0; i < picArr.length; i++) {
-			table[i] = {};
-			if (i < picArr.length) {
-				table[i] = picArr[i];
+				// 移除监听器
+				document.removeEventListener('click', startMusic);
+				document.removeEventListener('touchend', startMusic);
 			}
-			table[i].p_x = i % 20 + 1;
-			table[i].p_y = Math.floor(i / 20) + 1;
-		}
 
-		//场景（scene）、相机（camera）和渲染器（renderer），这样我们就能透过摄像机渲染出场景
-		let camera, scene, renderer;
-		let controls;
-		let objects = [];
-		let targets = [];
+			// 绑定事件
+			document.addEventListener('click', startMusic);
+			document.addEventListener('touchend', startMusic);
+			let arr = [
+				'20E64C7_427A_23e653f11e6f7115b32e8e7f5406dd5f_20260130100213459newMediaImage.jpeg',
+				'218B916_427A_421f25f967c48938c5ca6c8f3b0e63fc_20260130100219948newMediaImage.jpeg',
+				'414948E_427A_4e35bb0615ccd30166856d972b1795ce_20260130100405537newMediaImage.jpeg',
+				'46A6329_427A_5b8b735687f9a1e4ced596847a88a35c_20260130100408031newMediaImage.jpeg',
+				'474E7EE_427A_810d9f0d754e8999ef84e19ae0170e4a_20260130100523577newMediaImage.jpeg',
+				'1DA594A_427A_photoship1_20260130100552618newMediaImage.png',
+				'45F4690_427A_photoship2_20260130100607839newMediaImage.png',
+				'48BD62B_427A_photoship3_20260130100707443newMediaImage.png',
+				'26D99AF_427A_photoship4_20260130100712888newMediaImage.png',
+				'4D46759_427A_photoship5_20260130100733667newMediaImage.png',
+				'36EFF18_427A_photoship6_20260130100739292newMediaImage.png',
+				'4E48C14_427A_photoship7_20260130100759995newMediaImage.png',
+				'4539605_427A_photoship8_20260130100803151newMediaImage.png',
+				'178C622_427A_photoship9_20260130100823748newMediaImage.png',
+				'33ACE19_427A_photoship10_20260130100826626newMediaImage.png',
+				'1191019_427A_photoship11_20260130100848702newMediaImage.jpg',
+				'59101AB_427A_photoship12_20260130100851454newMediaImage.jpg',
+				'270E2DF_427A_photoship13_20260130100912011newMediaImage.jpg',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzE3Mzk1Nl9mNGNlZjFkMy0wZGQ5LTRjNzAtOGU4Mi0zMjZiNjBkN2VkMWY=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzE5ODAyOV8yNGVhMjJhMC02OTVmLTRhYzYtYmE4Zi1jN2ZiZmFhMmFmMTg=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzIxOTk0NV8zNWFjMzQ4Mi0wNTI3LTQ1OTktYTAyMi0yYjhkNDBkMGEwMmE=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzI0MDUzNV8zMzAxZmRmOC02MWM2LTRhZDMtYWZkZi03ZDU1YTM1ZDI5ZTI=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzI1ODE5MF82NDE2NTNlMy1jYWFmLTQ3NTktOTNjYS02NjlkNTBiNzU2MWE=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzI3NzU5NV81NDQzNjNiOS01Yjc4LTQ2NjAtYjk5Zi0wOWU5OTQ2M2UzMDQ=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzMwOTYwNF9mMGU3NzM5NC1lNDdiLTQwNGQtODYyNC03Mjg3YjdjNDFjMjU=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzMzMjIwNF8zNzc4ZmRlOC0zNDk4LTQxNzYtYWI2OC03ZWE5NDM2ZjkxMzE=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzM1NTc5OF8xZGE3ZjE0NS1kOGY1LTRhZjktOTJjNS04Y2Q3MDU0MzNiMDc=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzM3NzMzM19jZjYyZmQ5Mi1kZGFjLTQ4MTgtYWM5YS05OTQ3ZDI5NTk3Yzc=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzM5Nzg2M18zMjEyNjc4NS04M2Q0LTRmMDgtOGY2OC04ZGYwODc3NTk3MjY=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzQzMjgxOF9mOGFjNzBmZi03NGJkLTQ3NGEtOGNmYS1lNGI5NGMwMTc3NWY=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzQ1NjEwMV81YjMxNjFlOS1mOTA0LTQwZTgtYWQzMC02NjU1MGI0MDVhNzc=',
+				//   '/bmltYV8yNzk5NTAxMTYwMTdfMTczNTU0MzQ3MzczMV9lNjcyMWU3YS0wNTAxLTQ3YWItOWMwYS02NGU4MjIwODQxYzg='
+			]
 
-		init();
-		animate();
-
-
-		function init() {
-			//透视相机
-			camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
-			camera.position.z = 3000;
-			//创建一个新的场景对象。
-			scene = new THREE.Scene();
-
-			for (let i = 0; i < table.length; i++) {
-				//创建dom元素
-				let dom = document.createElement('div');
-				dom.className = 'element';
-				let img = document.createElement('img');
-				img.src = table[i].url;
-				dom.appendChild(img);
-
-				let object = new THREE.CSS3DObject(dom);
-				object.position.x = Math.random() * 4000 - 2000;
-				object.position.y = Math.random() * 4000 - 2000;
-				object.position.z = Math.random() * 4000 - 2000;
-				scene.add(object);
-				objects.push(object);
+			// 生成随机图片
+			for (let i = 0; i < 199; i++) {
+				let yu = i % 18;
+				// if (yu == 0) {
+				// 	yu = 17;
+				// }
+				picArr.push({
+					url: "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/" + arr[yu]
+				});
 			}
-			//三维向量
-			let vector = new THREE.Vector3();
-			//球坐标
-			let spherical = new THREE.Spherical();
+			console.log(picArr, 'picArr');
 
-			for (let i = 0, l = objects.length; i < l; i++) {
-				let phi = Math.acos(-1 + (2 * i) / l);
-				let theta = Math.sqrt(l * Math.PI) * phi;
-				//这是Three.js中大部分对象的基类，提供了一系列的属性和方法来对三维空间中的物体进行操纵。
-				let object = new THREE.Object3D();
-				spherical.set(800, phi, theta);
-				object.position.setFromSpherical(spherical);
-				vector.copy(object.position).multiplyScalar(2);
-				object.lookAt(vector);
-				targets.push(object);
+			let table = [];
+			for (let i = 0; i < picArr.length; i++) {
+				table[i] = {};
+				if (i < picArr.length) {
+					table[i] = picArr[i];
+				}
+				table[i].p_x = i % 20 + 1;
+				table[i].p_y = Math.floor(i / 20) + 1;
 			}
-			//CSS3DRenderer用于通过CSS3的transform属性， 将层级的3D变换应用到DOM元素上
-			renderer = new THREE.CSS3DRenderer();
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			renderer.domElement.style.position = 'absolute';
-			document.getElementById('container').appendChild(renderer.domElement);
-			// 鼠标控制
-			controls = new THREE.TrackballControls(camera, renderer.domElement);
-			controls.rotateSpeed = 0.5;//旋转的速度
-			controls.minDistance = 500;//够将相机向内移动多少
-			controls.maxDistance = 6000;//将相机向外移动多少
-			controls.addEventListener('change', render);
-			transform();
-			//窗口大小变化事件
-			window.addEventListener('resize', onWindowResize, false);
-		}
 
-		function transform() {
-			let duration = 2000;
-			TWEEN.removeAll();
-			for (let i = 0; i < objects.length; i++) {
-				let object = objects[i];
-				let target = targets[i];
+			//场景（scene）、相机（camera）和渲染器（renderer），这样我们就能透过摄像机渲染出场景
+			let camera, scene, renderer;
+			let controls;
+			let objects = [];
+			let targets = [];
 
-				new TWEEN.Tween(object.position)
-					.to({ x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
-					.easing(TWEEN.Easing.Exponential.InOut)
+			init();
+			animate();
+
+
+			function init() {
+				//透视相机
+				camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+				camera.position.z = 3000;
+				//创建一个新的场景对象。
+				scene = new THREE.Scene();
+
+				for (let i = 0; i < table.length; i++) {
+					//创建dom元素
+					let dom = document.createElement('div');
+					dom.className = 'element';
+					let img = document.createElement('img');
+					img.src = table[i].url;
+					dom.appendChild(img);
+
+					let object = new THREE.CSS3DObject(dom);
+					object.position.x = Math.random() * 4000 - 2000;
+					object.position.y = Math.random() * 4000 - 2000;
+					object.position.z = Math.random() * 4000 - 2000;
+					scene.add(object);
+					objects.push(object);
+				}
+				//三维向量
+				let vector = new THREE.Vector3();
+				//球坐标
+				let spherical = new THREE.Spherical();
+
+				for (let i = 0, l = objects.length; i < l; i++) {
+					let phi = Math.acos(-1 + (2 * i) / l);
+					let theta = Math.sqrt(l * Math.PI) * phi;
+					//这是Three.js中大部分对象的基类，提供了一系列的属性和方法来对三维空间中的物体进行操纵。
+					let object = new THREE.Object3D();
+					spherical.set(800, phi, theta);
+					object.position.setFromSpherical(spherical);
+					vector.copy(object.position).multiplyScalar(2);
+					object.lookAt(vector);
+					targets.push(object);
+				}
+				//CSS3DRenderer用于通过CSS3的transform属性， 将层级的3D变换应用到DOM元素上
+				renderer = new THREE.CSS3DRenderer();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				renderer.domElement.style.position = 'absolute';
+				document.getElementById('container').appendChild(renderer.domElement);
+				// 鼠标控制
+				controls = new THREE.TrackballControls(camera, renderer.domElement);
+				controls.rotateSpeed = 0.5;//旋转的速度
+				controls.minDistance = 500;//够将相机向内移动多少
+				controls.maxDistance = 6000;//将相机向外移动多少
+				controls.addEventListener('change', render);
+				transform();
+				//窗口大小变化事件
+				window.addEventListener('resize', onWindowResize, false);
+			}
+
+			function transform() {
+				let duration = 2000;
+				TWEEN.removeAll();
+				for (let i = 0; i < objects.length; i++) {
+					let object = objects[i];
+					let target = targets[i];
+
+					new TWEEN.Tween(object.position)
+						.to({ x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+						.easing(TWEEN.Easing.Exponential.InOut)
+						.start();
+
+					new TWEEN.Tween(object.rotation)
+						.to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+						.easing(TWEEN.Easing.Exponential.InOut)
+						.start();
+				}
+				new TWEEN.Tween(this)
+					.to({}, duration * 2)
+					.onUpdate(render)
 					.start();
-
-				new TWEEN.Tween(object.rotation)
-					.to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
-					.easing(TWEEN.Easing.Exponential.InOut)
-					.start();
 			}
-			new TWEEN.Tween(this)
-				.to({}, duration * 2)
-				.onUpdate(render)
-				.start();
-		}
 
-		function onWindowResize() {
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			render();
-		}
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				render();
+			}
 
-		//旋转动画
-		function animate() {
-			// 让场景通过x轴或者y轴旋转  & z
-			// scene.rotation.x += 0.001;
-			scene.rotation.y += 0.001;
-			requestAnimationFrame(animate);
-			TWEEN.update();
-			controls.update();
-			// 渲染循环
-			render();
-		}
+			//旋转动画
+			function animate() {
+				// 让场景通过x轴或者y轴旋转  & z
+				// scene.rotation.x += 0.001;
+				scene.rotation.y += 0.001;
+				requestAnimationFrame(animate);
+				TWEEN.update();
+				controls.update();
+				// 渲染循环
+				render();
+			}
 
-		function render() {
-			renderer.render(scene, camera);
-		}
+			function render() {
+				renderer.render(scene, camera);
+			}
 
-	</script>
-	<style>
-		html,
-		body {
-			height: 100%;
-		}
+		</script>
+		<style>
+			html,
+			body {
+				height: 100%;
+			}
 
-		body {
-			background-color: #000000;
-			margin: 0;
-			overflow: hidden;
-		}
+			body {
+				background-color: #000000;
+				margin: 0;
+				overflow: hidden;
+			}
 
-		.element {
-			width: 140px;
-			height: 140px;
-			cursor: pointer;
-			box-shadow: 0px 0px 12px rgba(238, 196, 11, 0.5);
-			border: 2px solid #fff;
-			text-align: center;
-			cursor: default;
-		}
+			.element {
+				width: 140px;
+				height: 140px;
+				cursor: pointer;
+				box-shadow: 0px 0px 12px rgba(238, 196, 11, 0.5);
+				border: 2px solid #fff;
+				text-align: center;
+				cursor: default;
+			}
 
-		.element:hover {
-			box-shadow: 0px 0px 12px rgba(11, 250, 250, 0.85);
-			border: 2px solid rgba(127, 255, 255, 0.85);
-		}
+			.element:hover {
+				box-shadow: 0px 0px 12px rgba(11, 250, 250, 0.85);
+				border: 2px solid rgba(127, 255, 255, 0.85);
+			}
 
-		.element img {
-			width: 140px;
-			height: 140px;
-			cursor: pointer;
-      object-fit: cover;
-		}
+			.element img {
+				width: 140px;
+				height: 140px;
+				cursor: pointer;
+				object-fit: cover;
+			}
 
-		#music {
-			display: none;
-		}
-	</style>
-</body>
+			#music {
+				display: none;
+			}
+		</style>
+	</body>
 
 </html>
